@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import Player from 'Player';
 
+import Modal from 'Modal';
 import Level from 'Level';
 import MainMenu from 'MainMenu';
 
@@ -15,7 +16,7 @@ const config = {
     type: Phaser.AUTO,
     parent: "game",
     //scene: [ MainMenu, Level ],
-    scene: [ Level ],
+    scene: [ Level, Modal  ],
     autoFocus: true,
 
     input: {

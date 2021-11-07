@@ -92,13 +92,22 @@ var cursors;
         // start camera
         this.LoadRoom("main");
         
+        //TESTING
+        this.input.keyboard.on('keydown-SPACE', function () {
+            this.ShowModal();
+
+            //console.log("OBJ: " + JSON.stringify());
+            /*
+            if(!this.scene.manager.isPaused(this.key))
+                this.ShowModal();
+              */  
+            
+        }, this);
 
     }
 
     /** Update called every tick. */
     update(time, delta) {
-
-
 
 
         //this.cameras.main._ch = this.map.heightInPixels;
@@ -153,6 +162,14 @@ var cursors;
         }
         
 
+    }
+
+
+    ShowModal = () => {
+        this.scene.manager.start("modal");
+        this.scene.manager.bringToTop("modal");
+
+        this.scene.manager.pause("level");
     }
 
     InitInteractables = () => {
