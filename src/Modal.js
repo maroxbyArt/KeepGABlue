@@ -18,12 +18,39 @@ export default class Modal extends Phaser.Scene {
         this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
     }
 
-    create(interactableCopy) {
+    update(time, delta) {
+        this.input.keyboard.on('keydown-SPACE', function () {
+            console.log("MODAL SPACE");
+            this.Release();
+
+        }, this);
+
+    }
+
+    Release = () => {
+        if(this.unloading == false){
+
+            this.scene.manager.resume(this.sessionData.baseSceneName);
+            this.scene.manager.bringToTop(this.sessionData.baseSceneName);
+            
+            this.scene.manager.remove(this.scene.key);
+            
+            this.unloading = true;
+
+        }
+
+    }
+
+    create(modalData) {
+
+        console.log("INCOMING MODAL DATA: " + JSON.stringify(modalData));
+
         var add = this.add;
         var input = this.input;
 
         this.textDisplay = null;
-        this.copy;
+        this.sessionData = modalData;
+        this.unloading = false;
     
         /*
         WebFont.load({
@@ -44,7 +71,7 @@ export default class Modal extends Phaser.Scene {
         graphics.fillRect(0, 0, this.sys.game.canvas.width, this.sys.game.canvas.height);
     
 
-        this.Populate(interactableCopy);
+        this.Populate(modalData.interactableData.copy);
 
         //graphics.fillStyle(0xff0000, 0.5);
         //graphics.fillRect(250, 200, 400, 256);

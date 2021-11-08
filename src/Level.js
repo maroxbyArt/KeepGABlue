@@ -4,6 +4,7 @@ import sign from 'img/sign.png';
 import playerImg from 'img/playerGrid.png';
 import Player from 'Player.js'
 import SceneData from 'SceneData.js'
+import ModalData from 'ModalData.js'
 
 import Utils from 'Utils.js'
 import Portals from 'Portals.js'
@@ -157,18 +158,18 @@ var cursors;
     }
 
 
-    ShowModal = (modalCopy) => {
+    ShowModal = (currInteractableData) => {
 
-        
         var activeScenes = this.scene.manager.getScenes(true);
-
         var modalScene = this.scene.manager.getScene("modal");
 
         if(this.scene.manager.isActive("modal") || this.loadingModal == false){
 
-            this.scene.manager.start("modal", modalCopy);
+            var modalData = new ModalData(this.scene.key, currInteractableData);
+
+            this.scene.manager.start("modal", modalData);
             this.scene.manager.bringToTop("modal");
-            this.scene.manager.pause("level");
+            this.scene.manager.pause(this.scene.key);
 
             this.loadingModal = true;
 
@@ -192,7 +193,7 @@ var cursors;
                     //console.log("COLLISION [interactable]: " + JSON.stringify(interactable));
                     //console.log("COLLISION [interactableData]: " + JSON.stringify(interactableData));
 
-                    this.ShowModal(interactableData.copy);
+                    this.ShowModal(interactableData);
 
 
                 }, this);
