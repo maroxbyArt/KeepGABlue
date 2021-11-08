@@ -1,6 +1,8 @@
 import Portal from 'Portal.js'
 import PortalData from 'PortalData.js'
+//import InteractableData from 'InteractableData.js'
 import Room from 'Room.js'
+import InteractableData from 'TestData.js'
 
 
 export default class SceneData {
@@ -25,6 +27,7 @@ export default class SceneData {
     Initialize = () => {
         this.ParsePortalData();
         this.ParseRoomData();
+        this.ParseInteractablesData();
 
 
     }
@@ -37,6 +40,29 @@ export default class SceneData {
         });
 
         console.log("Portal [" + id +"] not found.");
+    }
+
+    ParseInteractablesData = () => {
+        var interactableObjs = this.map.getObjectLayer('Interactables')['objects'];
+        this.scene.interactables = this.scene.physics.add.staticGroup();
+
+        interactableObjs.forEach(obj => {
+            console.log("FOUND INTERACTABLE: " + JSON.stringify(obj));
+
+            let currObj = this.scene.interactables.create(
+                obj.x, obj.y, "sign"
+            );
+            currObj.setScale(obj.width/34, obj.height/34);
+            currObj.setOrigin(0);
+            
+            currObj.body.width = obj.width;
+            currObj.body.height = obj.height;
+
+            currObj.setData("properties", obj.properties);
+            currObj.setData("interactableData", new InteractableData(obj));
+
+        });
+
     }
 
     ParsePortalData = () => {

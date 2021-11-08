@@ -53,6 +53,7 @@ var cursors;
 
         // Make map of level 1.
         this.map = this.make.tilemap({key: "level-1"});
+        this.loadingModal = false;
 
         // Define tiles used in map.
         const tileset = this.map.addTilesetImage("base",  "tiles", 32, 32);
@@ -68,8 +69,7 @@ var cursors;
 
         this.hSLayer = this.map.createStaticLayer("Hotspots", tileset, 0, 0);
         
-        //INIT INTERACTABLES
-        this.InitInteractables();
+
 
         cursors = this.input.keyboard.createCursorKeys();
 
@@ -85,6 +85,9 @@ var cursors;
 
         this.data = new SceneData(this);
 
+        //INIT INTERACTABLES
+        this.InitInteractables();
+
         //Add Colliders
         this.InitColliders();
 
@@ -92,17 +95,6 @@ var cursors;
         // start camera
         this.LoadRoom("main");
         
-        //TESTING
-        this.input.keyboard.on('keydown-SPACE', function () {
-            this.ShowModal();
-
-            //console.log("OBJ: " + JSON.stringify());
-            /*
-            if(!this.scene.manager.isPaused(this.key))
-                this.ShowModal();
-              */  
-            
-        }, this);
 
     }
 
@@ -165,37 +157,45 @@ var cursors;
     }
 
 
-    ShowModal = () => {
-        this.scene.manager.start("modal");
-        this.scene.manager.bringToTop("modal");
+    ShowModal = (modalCopy) => {
 
-        this.scene.manager.pause("level");
+        
+        var activeScenes = this.scene.manager.getScenes(true);
+
+        var modalScene = this.scene.manager.getScene("modal");
+
+        if(this.scene.manager.isActive("modal") || this.loadingModal == false){
+
+            this.scene.manager.start("modal", modalCopy);
+            this.scene.manager.bringToTop("modal");
+            this.scene.manager.pause("level");
+
+            this.loadingModal = true;
+
+
+        }
+
     }
 
     InitInteractables = () => {
-        var interactableObjs = this.map.getObjectLayer('Interactables')['objects'];
-        this.interactables = this.physics.add.staticGroup();
-
-        interactableObjs.forEach(obj => {
-            console.log("FOUND INTERACTABLE: " + JSON.stringify(obj));
-
-            let currObj = this.interactables.create(
-                obj.x, obj.y, "sign"
-            );
-            currObj.setScale(obj.width/34, obj.height/34);
-            currObj.setOrigin(0);
-            
-            currObj.body.width = obj.width;
-            currObj.body.height = obj.height;
-
-        });
 
 
         this.physics.add.collider(
             this.player, 
             this.interactables,
             (player, interactable) => {
-                console.log("COLLISION");
+                
+                var interactableData = interactable.getData("interactableData");
+
+                //TESTING
+                this.input.keyboard.on('keydown-SPACE', function () {
+                    //console.log("COLLISION [interactable]: " + JSON.stringify(interactable));
+                    //console.log("COLLISION [interactableData]: " + JSON.stringify(interactableData));
+
+                    this.ShowModal(interactableData.copy);
+
+
+                }, this);
 
             }
         );

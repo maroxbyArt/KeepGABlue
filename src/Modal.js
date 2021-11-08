@@ -18,9 +18,12 @@ export default class Modal extends Phaser.Scene {
         this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
     }
 
-    create() {
+    create(interactableCopy) {
         var add = this.add;
         var input = this.input;
+
+        this.textDisplay = null;
+        this.copy;
     
         /*
         WebFont.load({
@@ -40,17 +43,32 @@ export default class Modal extends Phaser.Scene {
         graphics.fillStyle(0x00ff00, 0.5);
         graphics.fillRect(0, 0, this.sys.game.canvas.width, this.sys.game.canvas.height);
     
+
+        this.Populate(interactableCopy);
+
         //graphics.fillStyle(0xff0000, 0.5);
         //graphics.fillRect(250, 200, 400, 256);
 
-
-        this.add.text(
-            this.sys.game.canvas.width / 2, 
-            this.sys.game.canvas.height / 2, 
-            'Testing'
-        );
     }
 
+    Populate = (copy) => {
+        console.log("POPULATE MODAL: " + copy);
+        this.copy = copy;
+
+        this.PopulateCopy();
+    }
+
+    PopulateCopy = () => {    
+        if(this.textDisplay != null)
+            this.textDisplay.destroy();
+
+        this.textDisplay = this.add.text(
+            this.sys.game.canvas.width / 2, 
+            this.sys.game.canvas.height / 2, 
+            this.copy
+        );
+
+    }
 
     InitStyles = () => {
         var element = document.createElement('style');
