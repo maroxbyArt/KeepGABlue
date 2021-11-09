@@ -1,12 +1,4 @@
 { "compressionlevel":-1,
- "editorsettings":
-    {
-     "export":
-        {
-         "format":"json",
-         "target":"home.json"
-        }
-    },
  "height":64,
  "infinite":false,
  "layers":[
@@ -84,6 +76,11 @@
                          "name":"copy",
                          "type":"string",
                          "value":"\"this is a sign\""
+                        }, 
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"sign"
                         }],
                  "rotation":0,
                  "type":"interactable",
@@ -91,10 +88,66 @@
                  "width":32,
                  "x":702,
                  "y":444
+                }, 
+                {
+                 "gid":228,
+                 "height":32,
+                 "id":29,
+                 "name":"AI",
+                 "properties":[
+                        {
+                         "name":"boundaries",
+                         "type":"object",
+                         "value":31
+                        }, 
+                        {
+                         "name":"copy",
+                         "type":"string",
+                         "value":"I am an AI"
+                        }, 
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"person"
+                        }],
+                 "rotation":0,
+                 "type":"interactable",
+                 "visible":true,
+                 "width":32,
+                 "x":832,
+                 "y":670.666666666667
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":10,
+         "name":"Boundaries",
+         "objects":[
+                {
+                 "height":177.333333333333,
+                 "id":31,
+                 "name":"AI_boundary",
+                 "properties":[
+                        {
+                         "name":"interactable",
+                         "type":"object",
+                         "value":29
+                        }],
+                 "rotation":0,
+                 "type":"boundary",
+                 "visible":true,
+                 "width":200,
+                 "x":746.666666666667,
+                 "y":589.333333333333
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
          "x":0,
          "y":0
         }, 
@@ -315,11 +368,11 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":10,
- "nextobjectid":29,
+ "nextlayerid":11,
+ "nextobjectid":32,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.7.0",
+ "tiledversion":"1.7.2",
  "tileheight":32,
  "tilesets":[
         {

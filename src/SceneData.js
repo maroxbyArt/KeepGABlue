@@ -28,6 +28,7 @@ export default class SceneData {
         this.ParsePortalData();
         this.ParseRoomData();
         this.ParseInteractablesData();
+        this.ParseBoundaryData();
 
 
     }
@@ -40,6 +41,21 @@ export default class SceneData {
         });
 
         console.log("Portal [" + id +"] not found.");
+    }
+
+    ParseBoundaryData = () => {
+        var boundaryObjs = this.map.getObjectLayer('Boundaries')['objects'];
+        this.scene.boundaries = {};
+
+        for( var i = 0; i < boundaryObjs.length; i++ ){
+            var currBoundaryData = boundaryObjs[i];
+            //var boundaryID = currBoundaryData
+            this.scene.boundaries[currBoundaryData.id] = currBoundaryData;
+            console.log("BOUNDARY DATA: " + JSON.stringify(currBoundaryData));
+
+        }
+
+
     }
 
     ParseInteractablesData = () => {
