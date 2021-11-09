@@ -27,8 +27,9 @@ export default class SceneData {
     Initialize = () => {
         this.ParsePortalData();
         this.ParseRoomData();
-        this.ParseInteractablesData();
+
         this.ParseBoundaryData();
+        this.ParseInteractablesData();
 
 
     }
@@ -75,7 +76,7 @@ export default class SceneData {
             currObj.body.height = obj.height;
 
             currObj.setData("properties", obj.properties);
-            currObj.setData("interactableData", new InteractableData(obj));
+            currObj.setData("interactableData", new InteractableData(this.scene, obj, this.scene.boundaries));
 
         });
 
