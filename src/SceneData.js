@@ -3,6 +3,7 @@ import PortalData from 'PortalData.js'
 //import InteractableData from 'InteractableData.js'
 import Room from 'Room.js'
 import InteractableData from 'TestData.js'
+import MobileInteractable from 'MobileInteractable.js'
 
 
 export default class SceneData {
@@ -66,17 +67,30 @@ export default class SceneData {
         interactableObjs.forEach(obj => {
             console.log("FOUND INTERACTABLE: " + JSON.stringify(obj));
 
-            let currObj = this.scene.interactables.create(
-                obj.x, obj.y, "sign"
-            );
-            currObj.setScale(obj.width/34, obj.height/34);
-            currObj.setOrigin(0);
-            
-            currObj.body.width = obj.width;
-            currObj.body.height = obj.height;
+            var interaactableData = new InteractableData(this.scene, obj, this.scene.boundaries);
+            if(interaactableData.boundaryID != null){
 
-            currObj.setData("properties", obj.properties);
-            currObj.setData("interactableData", new InteractableData(this.scene, obj, this.scene.boundaries));
+                console.log("DYNAMIC INTERACTABLE");
+                let currObj = new MobileInteractable(this.scene, obj.x, obj.y, "sign", interaactableData);
+
+            } else {
+
+                console.log("STATIC INTERACTABLE");
+
+                let currObj = this.scene.interactables.create(
+                    obj.x, obj.y, "sign"
+                );
+                currObj.setScale(obj.width/34, obj.height/34);
+                currObj.setOrigin(0);
+                
+                currObj.body.width = obj.width;
+                currObj.body.height = obj.height;
+
+                currObj.setData("properties", obj.properties);
+                currObj.setData("interactableData", interaactableData);
+            
+            }
+
 
         });
 
