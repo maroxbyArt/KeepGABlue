@@ -1,0 +1,17 @@
+{
+    "intro": {
+            "intro" : [
+                "Hello there! Welcome to the world of GEOrGia!",
+                "My name is Brian Kemp! People call me Mayor!"
+            ],
+            "voting" : [
+                "This world is inhavbited by creatures called POKEmon!",
+                "For some people, POKEMON are pets. Others use them for fights.",
+                "Myself ... ",
+                "I study POKEMON as a profession."
+            ],
+            "player" : [
+                "First, what is your name?"
+            ]
+      }
+}

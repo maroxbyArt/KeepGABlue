@@ -51,7 +51,7 @@ var cursors;
 
     /** Setup level. */
     create() {
-
+        
         // Make map of level 1.
         this.map = this.make.tilemap({key: "level-1"});
         this.loadingModal = false;

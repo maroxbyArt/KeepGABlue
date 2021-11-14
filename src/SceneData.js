@@ -66,30 +66,32 @@ export default class SceneData {
 
         interactableObjs.forEach(obj => {
             console.log("FOUND INTERACTABLE: " + JSON.stringify(obj));
-
+            let currObj;
             var interaactableData = new InteractableData(this.scene, obj, this.scene.boundaries);
             if(interaactableData.boundaryID != null){
 
                 console.log("DYNAMIC INTERACTABLE");
-                let currObj = new MobileInteractable(this.scene, obj.x, obj.y, "sign", interaactableData);
+                currObj = new MobileInteractable(this.scene, obj.x, obj.y, "sign", interaactableData);
+                this.scene.interactables.add(currObj);
 
             } else {
 
                 console.log("STATIC INTERACTABLE");
 
-                let currObj = this.scene.interactables.create(
+                currObj = this.scene.interactables.create(
                     obj.x, obj.y, "sign"
                 );
-                currObj.setScale(obj.width/34, obj.height/34);
-                currObj.setOrigin(0);
-                
-                currObj.body.width = obj.width;
-                currObj.body.height = obj.height;
 
                 currObj.setData("properties", obj.properties);
                 currObj.setData("interactableData", interaactableData);
             
             }
+
+            currObj.setScale(obj.width/34, obj.height/34);
+            currObj.setOrigin(0);
+            
+            currObj.body.width = obj.width;
+            currObj.body.height = obj.height;
 
 
         });

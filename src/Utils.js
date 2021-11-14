@@ -20,4 +20,13 @@ export default class Utils {
         return Math.floor(Math.random() * (max - min + 1) + min)
     }
 
+
+    static GetCanvasWidth = (scene) => {
+        return scene.sys.game.canvas.width;
+    }
+    
+    static GetCanvasHeight = (scene) => {
+        return scene.sys.game.canvas.height;
+    }
+
 }

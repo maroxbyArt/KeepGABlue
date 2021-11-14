@@ -19,9 +19,16 @@ export default class Modal extends Phaser.Scene {
     }
 
     update(time, delta) {
+
         this.input.keyboard.on('keydown-SPACE', function () {
+
             console.log("MODAL SPACE");
-            this.Release();
+            if(this.dialogue == null){
+                this.Release();
+            } else {
+                if(!this.clickThroughSuspended)
+                    this.PopulateDialogue();
+            }
 
         }, this);
 
@@ -41,16 +48,32 @@ export default class Modal extends Phaser.Scene {
 
     }
 
+    SuspendClickThrough = (clickThroughVal = true) => {
+        console.log("CALL SUSPEND")
+        console.log(clickThroughVal);
+
+        this.clickThroughSuspended = clickThroughVal;
+
+        if(clickThroughVal == true){}
+		    this.time.delayedCall(5000, this.SuspendClickThrough, [false], this);
+
+    }
+
     create(modalData) {
 
-        console.log("INCOMING MODAL DATA: " + JSON.stringify(modalData));
+        console.log("INCOMING MODAL DATA");
+        console.log(modalData);
 
         var add = this.add;
         var input = this.input;
+        this.clickThroughSuspended = false;
 
         this.textDisplay = null;
         this.sessionData = modalData;
         this.unloading = false;
+
+        this.dialogue = null;
+        this.currDialogueIndex = 0;
     
         /*
         WebFont.load({
@@ -69,12 +92,37 @@ export default class Modal extends Phaser.Scene {
 
         graphics.fillStyle(0x00ff00, 0.5);
         graphics.fillRect(0, 0, this.sys.game.canvas.width, this.sys.game.canvas.height);
+
+        console.log("DATA: ");
+        console.log(modalData.interactableData);
     
+        //EVAL DIALOGUE TYPE
+        if(modalData.interactableData.dialogueID != null){
+            var dialogueData = this.game.dialogue;            
+            this.dialogue = this.game.dialogue[modalData.interactableData.dialogueLevelID][modalData.interactableData.dialogueID]
+            console.log(this.dialogue);
 
-        this.Populate(modalData.interactableData.copy);
+            this.PopulateDialogue();
 
-        //graphics.fillStyle(0xff0000, 0.5);
-        //graphics.fillRect(250, 200, 400, 256);
+        } else {
+            this.Populate(modalData.interactableData.copy);
+
+        }
+
+    }
+
+    
+    PopulateDialogue = () => {
+        console.log(this.dialogue);
+        this.SuspendClickThrough();
+
+        if(this.currDialogueIndex == this.dialogue.length)
+            this.Release();
+        else {
+            this.Populate(this.dialogue[this.currDialogueIndex]);
+            this.currDialogueIndex++;
+        }
+
 
     }
 

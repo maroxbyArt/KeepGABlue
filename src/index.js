@@ -5,6 +5,9 @@ import Modal from 'Modal';
 import Level from 'Level';
 import MainMenu from 'MainMenu';
 
+import * as dialogueData from './Dialogues.json';
+
+
 const width = 1000;
 const height = 900;
 
@@ -16,7 +19,7 @@ const config = {
     type: Phaser.AUTO,
     parent: "game",
     //scene: [ MainMenu, Level ],
-    scene: [ Level, Modal  ],
+    scene: [ MainMenu, Level, Modal  ],
     autoFocus: true,
 
     input: {
@@ -36,6 +39,8 @@ const config = {
 
     width: 1000,
     height: 900,
+    backgroundColor: '#FFFFFF',
+
     
     scale: {
         mode: Phaser.Scale.FIT,
@@ -60,3 +65,4 @@ class Game extends Phaser.Game {
 */
 
 var game = new Phaser.Game(config);
+game.dialogue = dialogueData["default"];
