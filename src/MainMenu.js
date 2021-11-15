@@ -26,6 +26,9 @@ export default class MainMenu extends Phaser.Scene
     {
 		this.dialogueLevelID = "intro";
 		this.activeArea;
+
+		//this.timerDuration = 5000;
+		this.timerDuration = 5000;
 		
 		// TODO
         //this.cursors = Phaser.Types.Input.Keyboard.CursorKeys
@@ -74,8 +77,9 @@ export default class MainMenu extends Phaser.Scene
 	DrawCredits = () => {
         const text1 = this.add.text(100, 100, 'Phaser Text with Tint');
         text1.setTint(0xff00ff, 0xffff00, 0x0000ff, 0xff0000);
+		this.DrawIntroDialogue();
 		
-		this.time.delayedCall(5000, this.DrawGate, [], this);
+		//this.time.delayedCall(this.timerDuration, this.DrawGate, [], this);
 
 	}	
 
@@ -127,7 +131,7 @@ export default class MainMenu extends Phaser.Scene
 	   this.btmGate.displayOriginY = 0;
 
 
-	   this.time.delayedCall(5000, this.DrawIntroDialogue, [], this);
+	   this.time.delayedCall(this.timerDuration, this.DrawIntroDialogue, [], this);
 
 	}
 	

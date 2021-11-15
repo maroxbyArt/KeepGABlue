@@ -1,3 +1,5 @@
+import Utils from 'Utils'
+
 //import "assets/fonts/PokemonGb-RAeo.ttf"
 
 /**
@@ -34,6 +36,36 @@ export default class Modal extends Phaser.Scene {
 
     }
 
+    DrawLayout_Image_FillWidth = () => {
+        var graphics = this.add.graphics();
+        graphics.fillStyle(0xffff00, 1.0);
+
+        this.activeArea = this.add.rectangle(
+			0, 
+            Utils.GetCanvasHeight(this) - Utils.GetCanvasHeight(this) / 3,
+            Utils.GetCanvasWidth(this), 
+            Utils.GetCanvasHeight(this) / 3,  
+			0x6666ff
+        );
+        this.activeArea.displayOriginX = 0;
+        this.activeArea.displayOriginY = 0;
+
+        /*
+        this.activeArea = graphics.fillRect(
+            0, 			
+            Utils.GetCanvasHeight(this) - Utils.GetCanvasHeight(this) / 3,
+            Utils.GetCanvasWidth(this), 
+            Utils.GetCanvasHeight(this) / 3,  
+            250
+        );
+
+        var mask = new Phaser.Display.Masks.GeometryMask(this, graphics);
+        var text = this.add.text(160, 280, content, { fontFamily: 'Arial', color: '#00ff00', wordWrap: { width: 310 } }).setOrigin(0);
+
+        text.setMask(mask);
+        */
+    }
+
     Release = () => {
         if(this.unloading == false){
 
@@ -54,8 +86,9 @@ export default class Modal extends Phaser.Scene {
 
         this.clickThroughSuspended = clickThroughVal;
 
-        if(clickThroughVal == true){}
+        if(clickThroughVal == true){
 		    this.time.delayedCall(5000, this.SuspendClickThrough, [false], this);
+        }
 
     }
 
@@ -74,6 +107,9 @@ export default class Modal extends Phaser.Scene {
 
         this.dialogue = null;
         this.currDialogueIndex = 0;
+
+        this.activeArea = null;
+        this.padding = 10;
     
         /*
         WebFont.load({
@@ -95,7 +131,10 @@ export default class Modal extends Phaser.Scene {
 
         console.log("DATA: ");
         console.log(modalData.interactableData);
+
+        this.DrawLayout_Image_FillWidth();
     
+        
         //EVAL DIALOGUE TYPE
         if(modalData.interactableData.dialogueID != null){
             var dialogueData = this.game.dialogue;            
@@ -108,6 +147,7 @@ export default class Modal extends Phaser.Scene {
             this.Populate(modalData.interactableData.copy);
 
         }
+        
 
     }
 
@@ -134,14 +174,29 @@ export default class Modal extends Phaser.Scene {
     }
 
     PopulateCopy = () => {    
+        if(this.activeArea == null){
+            console.log("ERROR: modal active area is null");
+            return
+        }
+
         if(this.textDisplay != null)
             this.textDisplay.destroy();
 
+        console.log(this.activeArea);
+
         this.textDisplay = this.add.text(
-            this.sys.game.canvas.width / 2, 
-            this.sys.game.canvas.height / 2, 
+            this.activeArea.x + this.padding,
+            this.activeArea.y + this.padding,
             this.copy
         );
+
+            /*
+        this.textDisplay = this.add.text(
+            this.activeArea.width - this.padding,
+            this.activeArea.height - this.padding,
+            this.copy
+        );
+            */
 
     }
 
